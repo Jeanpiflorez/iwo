@@ -1,0 +1,27 @@
+h1{
+    color: aliceblue;
+}
+
+.contenedorutilidades{
+    width: 700px;
+}
+
+#cardConfiguration{
+    background-color: #8ca4ba;
+}
+.log{
+    margin: 10px 10px 0 40px;
+    width: 42vw;
+    height: 450px;
+    border-color: #000000;
+    border-width: 3px;
+    border-style: solid;
+    color: #000000;
+    background-color: #000000;
+    overflow: auto;
+}
+
+.log h5{
+    text-align: center;
+    color: aliceblue;
+}
