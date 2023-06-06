@@ -1,6 +1,12 @@
 // Hoja de js para homeiwo.php By Jean Pierre Florez Digital solutions
 console.log("Consola de IWO MIGRATIONS. Bienvenido developer")
 
+
+//Función para llamar al inico de la página.
+$(document).ready(function(){
+    /* listenProgressServer1(); */
+});
+
 var button = document.getElementById("guardar");
 button.addEventListener("click", function(){
     var txtNombreMig = document.getElementById("nombreMig");
@@ -46,7 +52,7 @@ button.addEventListener("click", function(){
         if(valor===""){
             console.log("La variable: " + (i + 1) + "Está vacía.");
             alert("Por favor rellene todos los campos");
-            //Decaramos una variable como falsa
+            //Declaramos una variable como falsa
             var resvarcreden = false;
             break;
         }
@@ -54,10 +60,13 @@ button.addEventListener("click", function(){
     //console.log(nombreMig + hostOri + puertoOri + bdNameOri + usuarioOri + contrasenaOri + hostDes + puertoDes + bdNameDes + usuarioDes + contrasenaDes);
    //si la variable de resvarcreden es diferente a falso entonces realiza la insercción de los datos a el php.
     if(resvarcreden != false){
+        listenProgressServer1()
+        /* console.log('Se esta llamando al listener'); */
         $.ajax({
             url:'iwo.php',
             method:'POST',
             data:{
+                action        :'guardatos',
                 nombreMig     : nombreMig,
                 hostOri       : hostOri,
                 puertoOri     : puertoOri,
@@ -72,7 +81,9 @@ button.addEventListener("click", function(){
             },
             success: function(response){
                 //Se envia la respuesta del servidor a la función mostrarMensaje.
-                mostrarMensaje(response);                    
+                mostrarMensaje(response);
+                stopListenerServer();
+                /* console.log('Se esta cerrando la escucha. '); */
             }
         })
     }
@@ -134,13 +145,42 @@ function mostrarCollapse(collapseId){
 
 //funcion para escuchar los mensajes de el servidor
 function listenProgressServer1(){
-    setInterval(function() {//Se pasa una función de tiempo para realizar la solicitud cada cierto tiempo
+    intervalId = setInterval(function() {//Se pasa una función de tiempo para realizar la solicitud cada cierto tiempo
         $.ajax({
-            url    :'',
+            url    :'iwo.php',
             method :'get',
             success: function(response){
+                var response = "Este es un mensaje del ajax de escucha: " + response;
                 mostrarMensaje(response);
+                /* console.log('Se esta ejecutando la escucha.'); */
             }
         });
-    });
+    }, 200);
+}
+//Función para detener la escucha.
+function stopListenerServer(){
+    clearInterval(intervalId);
+    /* console.log('Se esta ejecutando la detencion del escuchador. '); */
+}
+//función para llenar el select de las bases de datos.
+function fillSelect(){
+    $.ajax({
+        url   :'iwo.php',
+        method:'post',
+        data  :{
+            action : 'fillSelected'
+        },
+        success: function(data){
+            console.log(data);
+            var selected = $('#selected');
+            selected.empty();
+            $.each(data, function(index, dato) {
+                var option = $('<option>').val(dato.valor).text(dato.etiqueta);
+                selected.append(option);
+              });
+            },
+            error: function() {
+              console.log('Error en la solicitud Ajax');
+        }
+    })
 }
