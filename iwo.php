@@ -1,15 +1,5 @@
 <?php
 
-error_reporting(0);
-//Función para conectarse a la base de datos de iwo
-// $conexion =mysqli_connect("localhost","root","","dbiwomigration");
-// if (!$conexion) {
-//     echo "Error al conectar a mysl";
-//     # code...
-// } else {
-//     echo "conexion exitosa a Maria db";
-//     # code...
-// }
 
 function conectarbd(){
     $host = "localhost";
@@ -42,13 +32,19 @@ if(isset($_POST['action'])){
         case 'fillSelected':
             $mensaje = selected();
             break;
+        case 'optionSelect':
+            optionSelect();
+            break;
+        case 'conexBdDestino':
+             // Llamar a la función conexBdDestino() con las variables adecuadas
+             $mensaje = conexBdDestino();
+             break;
         //se puede segir parametrizando más acciones por medio de los case.
         default:
         echo 'Acción no valida o no se ha codificado';
     }
     echo $mensaje;
 }
-
 
 function guardatos() {
     $conexion = conectarbd();
@@ -129,8 +125,75 @@ function guardatos() {
 }
 
 function selected(){
-    $mensaje = 'Soy la función del fillselect';
-    return $mensaje;
+    try {
+        $conexion = conectarbd();
+        $query = "SELECT Nombre_Migracion FROM tbldatosdestino";
+        $statement = $conexion->query($query);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $mensaje = json_encode($result);
+        return $mensaje;
+    }catch (Exception $e) {
+        $mensaje = "Error en la consulta: " . $e->getMessage();
+        return $mensaje;
+    }   
+}
+//Variables globales para recibir los datos recuperados de la base de datos de destino de la función optionSelect.
+$hostDestino = "";
+$puertoDestino = "";
+$nombreDbDestino = "";
+$nombreUsuarioDestino = "";
+$contraseñaDestino = "";
+//Variables globales para recibir los datos recuperados de la base de datos de origen de la función optionSelect.
+$hostOrigen = "";
+$puertoOrigen = "";
+$nombreDbOrigen = "";
+$nombreUsuarioOrigen = "";
+$contraseñaOrigen = "";
+
+function optionSelect(){
+
+    global $hostDestino, $puertoDestino, $nombreDbDestino, $nombreUsuarioDestino, $contraseñaDestino;
+    global $hostOrigen, $puertoOrigen, $nombreDbOrigen, $nombreUsuarioOrigen, $contraseñaOrigen;
+
+    try{
+        $opcionSelect = $_POST['opcionSelect'];
+        
+        $conexion = conectarbd();
+        $query = "SELECT host, puerto, nombre_Db, nombre_Usuario, contraseña FROM tbldatosdestino WHERE Nombre_Migracion = '$opcionSelect'";
+        $statement = $conexion->query($query);
+        $datosDestino = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($datosDestino !== false) {
+        $hostDestino = $datosDestino['host'];
+        $puertoDestino = $datosDestino['puerto'];
+        $nombreDbDestino = $datosDestino['nombre_Db'];
+        $nombreUsuarioDestino = $datosDestino['nombre_Usuario'];
+        $contraseñaDestino = $datosDestino['contraseña'];
+        }
+        $query1 = "SELECT host, puerto, nombre_Db, nombre_Usuario, contraseña FROM tbldatosorigen WHERE Nombre_Migracion = '$opcionSelect'";
+        $statement = $conexion->query($query1);
+        $datosOrigen = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($datosDestino !== false) {
+        $hostOrigen = $datosOrigen['host'];
+        $puertoOrigen = $datosOrigen['puerto'];
+        $nombreDbOrigen = $datosOrigen['nombre_Db'];
+        $nombreUsuarioOrigen = $datosOrigen['nombre_Usuario'];
+        $contraseñaOrigen = $datosOrigen['contraseña'];
+        }
+    }catch (Exception $e) {
+        $mensaje =  "Error en la consulta de las credenciales de las bases de datos de origen y/o destino: " . $e->getMessage();
+        return $mensaje;
+    }
 }
 
+function conexBdDestino() {
+    global $hostDestino, $puertoDestino, $nombreDbDestino, $nombreUsuarioDestino, $contraseñaDestino;
+
+    if (!empty($hostDestino) && !empty($puertoDestino) && !empty($nombreDbDestino) && !empty($nombreUsuarioDestino) && !empty($contraseñaDestino)) {
+        $mensaje = "Las variables están definidas y no están vacías.";
+    } else {
+        $mensaje = "Error: Las variables no están definidas o están vacías.";
+    }
+    echo "Estoy aqui sin hacer nada que hay pa hacer ";
+    return $mensaje;
+}
 ?>

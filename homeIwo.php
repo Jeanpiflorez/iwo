@@ -24,7 +24,7 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasRightLabel">IWO MIGRATIONS MENU</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" id="cerrarMenu"></button>
       </div>
       <div>
       <!--Aqui deberiamos poner los datos de la persona que se coneto-->
@@ -116,16 +116,16 @@
                 <h5>CONEXIÓN</h5>
               </div>
               <div class="maincollapsed">
-                <select class="form-select" aria-label="Default select example" id="selected" onclick="fillSelect()">
-                  <option value="" selected>Seleccionar opción</option>
+                <select class="form-select" aria-label="Default select example" id="selected">
+                  <option value="" selected></option>
                 </select>
                 <div class="conexOri" style="display: inline-grid;">
                   <img src="imgServerOri.png" alt="Imagen de servidor de origen" style="width: 20vw;">
-                  <button>CONECTARSE A BD ORIGEN</button>
+                  <button type="button" class="btn btn-primary" onclick="">CONECTARSE A BD ORIGEN</button>
                 </div>
                 <div class="conexDes" style="display: inline-grid;">
                   <img src="imgServerDes.png" alt="Imagen de servidor de destino" style="width: 22.5vw">
-                  <button>CONECTARSE A BD DESTINO</button>
+                  <button type="button" class="btn btn-primary" onclick="conexBdDestino()">CONECTARSE A BD DESTINO</button>
                 </div>
               </div>
             </div>

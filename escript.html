@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modificador de Script</title>
+    <script>
+        function generateScript() {
+            var sigla = document.getElementById("sigla").value;
+            var enfermedad = document.getElementById("enfermedad").value;
+            var tabla ="consulta_nota";
+            var campo ="evolucion"
+            
+            var script = " -- Primera consulta \n" +
+
+                "UPDATE " + tabla + " \n" +
+                "SET " + campo + " = \n" +
+                "    CASE\n" +
+                "        WHEN " + campo + " LIKE '" + sigla + " %' THEN\n" +
+                "            CONCAT('" + enfermedad + " ', SUBSTRING(" + campo + ", 4))\n" +
+                "        WHEN " + campo + " LIKE '% " + sigla + "' THEN\n" +
+                "            CONCAT(SUBSTRING(" + campo + ", 1, LENGTH(" + campo + ") - 3), ' " + enfermedad + "')\n" +
+                "        WHEN " + campo + " LIKE '% " + sigla + " %' THEN\n" +
+                "            REPLACE(" + campo + ", ' " + sigla + " ', ' " + enfermedad + " ')\n" +
+                "        ELSE " + campo + " \n" +
+                "    END\n" +
+                "WHERE " + campo + " LIKE '% " + sigla + " %' OR " + campo + " LIKE '" + sigla + " %' OR " + campo + " LIKE '% " + sigla + "'; \n" +
+
+                " -- Segunda consulta \n" +
+                "UPDATE " + tabla + " \n" +
+                "SET " + campo + " = \n" +
+                "    CASE\n" +
+                "        WHEN " + campo + " LIKE '" + sigla + ". %' THEN\n" +
+                "            CONCAT('" + enfermedad + " ', SUBSTRING(" + campo + ", 4))\n" +
+                "        WHEN " + campo + " LIKE '% " + sigla + ".' THEN\n" +
+                "            CONCAT(SUBSTRING(" + campo + ", 1, LENGTH(" + campo + ") - 3), ' " + enfermedad + "')\n" +
+                "        WHEN " + campo + " LIKE '% " + sigla + ". %' THEN\n" +
+                "            REPLACE(" + campo + ", ' " + sigla + ". ', ' " + enfermedad + " ')\n" +
+                "        ELSE " + campo + " \n" +
+                "    END\n" +
+                "WHERE " + campo + " LIKE '% " + sigla + ". %' OR " + campo + " LIKE '" + sigla + ". %' OR " + campo + " LIKE '% " + sigla + ".'; \n" +
+                
+                " -- Tercera consulta \n" +
+                "UPDATE " + tabla + " \n" +
+                "SET " + campo + " = \n" +
+                "    CASE\n" +
+                "        WHEN " + campo + " LIKE '" + sigla + ", %' THEN\n" +
+                "            CONCAT('" + enfermedad + " ', SUBSTRING(" + campo + ", 4))\n" +
+                "        WHEN " + campo + " LIKE '% " + sigla + ",' THEN\n" +
+                "            CONCAT(SUBSTRING(" + campo + ", 1, LENGTH(" + campo + ") - 3), ' " + enfermedad + "')\n" +
+                "        WHEN " + campo + " LIKE '% " + sigla + ", %' THEN\n" +
+                "            REPLACE(" + campo + ", ' " + sigla + ", ', ' " + enfermedad + " ')\n" +
+                "        ELSE " + campo + " \n" +
+                "    END\n" +
+                "WHERE " + campo + " LIKE '% " + sigla + ", %' OR " + campo + " LIKE '" + sigla + ", %' OR " + campo + " LIKE '% " + sigla + ",'; \n" +
+                
+                " -- Cuarta consulta \n" +
+                "UPDATE " + tabla + " \n" +
+                "SET " + campo + " = \n" +
+                "    CASE\n" +
+                "        WHEN " + campo + " LIKE '" + sigla + ": %' THEN\n" +
+                "            CONCAT('" + enfermedad + " ', SUBSTRING(" + campo + ", 4))\n" +
+                "        WHEN " + campo + " LIKE '% " + sigla + ":' THEN\n" +
+                "            CONCAT(SUBSTRING(" + campo + ", 1, LENGTH(" + campo + ") - 3), ' " + enfermedad + "')\n" +
+                "        WHEN " + campo + " LIKE '% " + sigla + ": %' THEN\n" +
+                "            REPLACE(" + campo + ", ' " + sigla + ": ', ' " + enfermedad + " ')\n" +
+                "        ELSE " + campo + " \n" +
+                "    END\n" +
+                "WHERE " + campo + " LIKE '% " + sigla + ": %' OR " + campo + " LIKE '" + sigla + ": %' OR " + campo + " LIKE '% " + sigla + ":'; \n";
+
+            document.getElementById("scriptBox").innerText = script;
+        }
+
+        function copyScript() {
+            var scriptBox = document.getElementById("scriptBox");
+            var range = document.createRange();
+            range.selectNode(scriptBox);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+            
+            alert("Script copiado al portapapeles.");
+        }
+    </script>
+</head>
+<body>
+    <h2>Modificador de Script</h2>
+    <label for="sigla">Sigla:</label>
+    <input type="text" id="sigla" required><br><br>
+        
+    <label for="enfermedad">Enfermedad:</label>
+    <input type="text" id="enfermedad" required style="width: 500px;"><br><br>
+        
+    <button onclick="generateScript()">Generar Script</button>
+    <button onclick="copyScript()">Copiar Consulta</button>
+
+    <h3>Script Modificado:</h3>
+    <pre id="scriptBox"></pre>
+</body>
+</html>

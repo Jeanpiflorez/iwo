@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modificador de Script</title>
+    <script>
+        function generateScript() {
+            var sigla = document.getElementById("sigla").value;
+            var enfermedad = document.getElementById("enfermedad").value;
+            
+            var script = "-- Primera consulta \n" +
+                "UPDATE consulta_nota\n" +
+                "SET evolucion = \n" +
+                "    CASE\n" +
+                "        WHEN evolucion LIKE '" + sigla + " %' THEN\n" +
+                "            CONCAT('" + enfermedad + " ', SUBSTRING(evolucion, " + (sigla.length + 2) + "))\n" +
+                "        WHEN evolucion LIKE '% " + sigla + "' THEN\n" +
+                "            CONCAT(SUBSTRING(evolucion, 1, LENGTH(evolucion) - 3), ' " + enfermedad + "')\n" +
+                "        WHEN evolucion LIKE '% " + sigla + " %' THEN\n" +
+                "            REPLACE(evolucion, ' " + sigla + " ', ' " + enfermedad + " ')\n" +
+                "        ELSE evolucion\n" +
+                "    END\n" +
+                "WHERE evolucion LIKE '% " + sigla + " %' OR evolucion LIKE '" + sigla + " %' OR evolucion LIKE '% " + sigla + "'; \n" +
+                "-- Segunda consulta \n" +
+                "UPDATE consulta_nota\n" +
+                "SET evolucion = \n" +
+                "    CASE\n" +
+                "        WHEN evolucion LIKE '" + sigla + ", %' THEN\n" +
+                "            CONCAT('" + enfermedad + " ', SUBSTRING(evolucion, " + (sigla.length + 3) + "))\n" +
+                "        WHEN evolucion LIKE '% " + sigla + ",' THEN\n" +
+                "            CONCAT(SUBSTRING(evolucion, 1, LENGTH(evolucion) - 3), ' " + enfermedad + "')\n" +
+                "        WHEN evolucion LIKE '% " + sigla + ", %' THEN\n" +
+                "            REPLACE(evolucion, ' " + sigla + ", ', ' " + enfermedad + " ')\n" +
+                "        ELSE evolucion\n" +
+                "    END\n" +
+                "WHERE evolucion LIKE '% " + sigla + ", %' OR evolucion LIKE '" + sigla + ", %' OR evolucion LIKE '% " + sigla + "," + "'; \n" +
+                "-- Tercera consulta \n" +
+                "UPDATE consulta_nota\n" +
+                "SET evolucion = \n" +
+                "    CASE\n" +
+                "        WHEN evolucion LIKE '" + sigla + ". %' THEN\n" +
+                "            CONCAT('" + enfermedad + " ', SUBSTRING(evolucion, " + (sigla.length + 3) + "))\n" +
+                "        WHEN evolucion LIKE '% " + sigla + ".'" THEN\n" +
+                "            CONCAT(SUBSTRING(evolucion, 1, LENGTH(evolucion) - 3), ' " + enfermedad + "')\n" +
+                "        WHEN evolucion LIKE '% " + sigla + ". %' THEN\n" +
+                "            REPLACE(evolucion, ' " + sigla + ". ', ' " + enfermedad + " ')\n" +
+                "        ELSE evolucion\n" +
+                "    END\n" +
+                "WHERE evolucion LIKE '% " + sigla + ". %' OR evolucion LIKE '" + sigla + ". %' OR evolucion LIKE '% " + sigla + "." + "'; \n" +
+                "-- Cuarta consulta \n" +
+                "UPDATE consulta_nota\n" +
+                "SET evolucion = \n" +
+                "    CASE\n" +
+                "        WHEN evolucion LIKE '" + sigla + ": %' THEN\n" +
+                "            CONCAT('" + enfermedad + " ', SUBSTRING(evolucion, " + (sigla.length + 3) + "))\n" +
+                "        WHEN evolucion LIKE '% " + sigla + ": '" THEN \n" +
+                "            CONCAT(SUBSTRING(evolucion, 1, LENGTH(evolucion) - 3), ' " + enfermedad + "')\n" +
+                "        WHEN evolucion LIKE '% " + sigla + ": %' THEN\n" +
+                "            REPLACE(evolucion, ' " + sigla + ": ', ' " + enfermedad + " ')\n" +
+                "        ELSE evolucion\n" +
+                "    END\n" +
+                "WHERE evolucion LIKE '% " + sigla + ": %' OR evolucion LIKE '" + sigla + ": %' OR evolucion LIKE '% " + sigla + ":" + "'; \n";
+
+            document.getElementById("scriptBox").innerText = script;
+        }
+        
+        function copyScript() {
+            var scriptBox = document.getElementById("scriptBox");
+            var range = document.createRange();
+            range.selectNode(scriptBox);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+            
+            alert("Script copiado al portapapeles.");
+        }
+    </script>
+</head>
+<body>
+    <h2>Modificador de Script</h2>
+    <label for="sigla">Sigla:</label>
+    <input type="text" id="sigla" required><br><br>
+        
+    <label for="enfermedad">Enfermedad:</label>
+    <input type="text" id="enfermedad" required><br><br>
+        
+    <button onclick="generateScript()">Generar Script</button>
+    <button onclick="copyScript()">Copiar Consulta</button>
+
+    <h3>Script Modificado:</h3>
+    <pre id="scriptBox"></pre>
+</body>
+</html>
