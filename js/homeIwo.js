@@ -1,6 +1,14 @@
 // Hoja de js para homeiwo.php By Jean Pierre Florez Digital solutions
 console.log("Consola de IWO MIGRATIONS. Bienvenido developer")
 
+function loadOut(){
+    $(".loader").fadeOut("slow");
+}
+
+$(function() {
+    loadOut()
+});
+
 
 
 // Agregar el evento beforeunload a la ventana actual
@@ -115,9 +123,9 @@ button.addEventListener("click", function(){
    //si la variable de resvarcreden es diferente a falso entonces realiza la insercción de los datos a el php.
     if(resvarcreden != false){
         listenProgressServer1()
-        /* console.log('Se esta llamando al listener'); */
+        //console.log('Se esta llamando al listener');
         $.ajax({
-            url:'iwo.php',
+            url:'php/iwo.php',
             method:'POST',
             data:{
                 action        :'guardatos',
@@ -137,7 +145,7 @@ button.addEventListener("click", function(){
                 //Se envia la respuesta del servidor a la función mostrarMensaje.
                 mostrarMensaje(response);
                 stopListenerServer();
-                /* console.log('Se esta cerrando la escucha. '); */
+                //console.log('Se esta cerrando la escucha. ');
             }
         })
     }
@@ -181,31 +189,6 @@ function mostrarMensaje(response) {//recibimos los mensajes del servidor para mo
     $('#log').append(brElement);
 }
 
-<<<<<<< Updated upstream:js/homeIwo.js
-=======
-//Codigo para poner y quitar los contenedores++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-var collapse1 = document.getElementById('collapse1');
-var collapse2 = document.getElementById('collapse2');
-//Aqui se agregan mas variables para obtener el id de los collapseds.
-function mostrarCollapse(collapseId){
-    if (collapseId === 1) {
-        collapse1.classList.add("show");
-        collapse2.classList.remove("show");
-        $('#cerrarMenu').trigger('click');
-        //Aqui se agregan mas procedimientos.
-    } else if(collapseId === 2){
-        collapse2.classList.add("show");
-        collapse1.classList.remove("show");
-        fillSelect();
-        $('#cerrarMenu').trigger('click');
-        //Aqui se agregan mas procedimientos.
-    }//Aqui se agregan mas condicionales.
-}
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
->>>>>>> Stashed changes:homeIwo.js
 //funcion para escuchar los mensajes de el servidor
 function listenProgressServer1(){
     intervalId = setInterval(function() {//Se pasa una función de tiempo para realizar la solicitud cada cierto tiempo
@@ -224,7 +207,7 @@ function listenProgressServer1(){
 //Función para detener la escucha.
 function stopListenerServer(){
     clearInterval(intervalId);
-    /* console.log('Se esta ejecutando la detencion del escuchador. '); */
+    
 }
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -233,7 +216,6 @@ function stopListenerServer(){
 //función para llenar el select de las bases de datos.
 function fillSelect() {
     $.ajax({
-<<<<<<< Updated upstream:js/homeIwo.js
         url: 'php/iwo.php',
         method: 'POST',
         data: {
@@ -268,8 +250,9 @@ function selectedConex() {
 $(document).ready(function() {
     // Evento de clic en el botón
     $(document).on('click', '.btnMigration', function() {
-    let table = $(this).attr("data-id");
-    conexionselected = sessionStorage.getItem('migracion')
+        $(".loader").fadeIn("slow");
+        let table = $(this).attr("data-id");
+        conexionselected = sessionStorage.getItem('migracion')
         if(conexionselected === ""){
             alert("¡NO SE HA SELECCIONADO UNA MIGRACIÓN VUELVA AL MODULO DE CONEXIÓN Y ESCOJALO!")
         }else{
@@ -281,61 +264,12 @@ $(document).ready(function() {
                     migracion: conexionselected
                 },
                 success:function(response){
+                    loadOut()
                     mostrarMensaje(response);
                     stopListenerServer();
+                    
                 }
             })
-=======
-        url: 'iwo.php',
-        method: 'post',
-        data: {
-            action: 'fillSelected'
-        },
-        dataType: 'json',
-        success: function (data) {
-            var selected = $('#selected');
-            selected.empty();
-            selected.prepend('<option value="" selected disabled>Selecciona una opción</option>');
-            $.each(data, function (index, dato) {
-                var option = $('<option>').val(dato.Nombre_Migracion).text(dato.Nombre_Migracion);
-                selected.append(option);
-            });
-        },
-        error: function () {
-            console.log('Error en la solicitud Ajax');
-        }
-    });
-}
-
-$('#selected').change(function() {
-    // Código a ejecutar cuando se produce un doble clic en el select
-    var selectedValue = $(this).val();
-    console.log('Doble clic en el select. Valor seleccionado: ' + selectedValue);
-    $.ajax({
-        url:"iwo.php",
-        method:"POST",
-        data:{
-            action       : 'optionSelect',
-            opcionSelect : selectedValue
-        },
-        success :function(data){
-            alert('Se establecieron las credenciales para ' + selectedValue + data);
-        }
-    });
-});
-
-function conexBdDestino(){
-    console.log(selectedValue);
-    $.ajax({
-        
-        url:"iwo.php",
-        method:"POST",
-        data:{
-            action       : 'conexBdDestino', 
-        },
-        success:function(response){
-            mostrarMensaje(response);
->>>>>>> Stashed changes:homeIwo.js
         }
     });
 });

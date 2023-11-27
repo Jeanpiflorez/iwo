@@ -16,9 +16,10 @@
 <script>
   var usuario = sessionStorage.getItem('usuario');
   var token = sessionStorage.getItem('token');if(token === null){window.location.href = 'index.html';}
-  else{$.ajax({url:"iwo.php",method:"POST",data:{token:token, action:'confirm'},success:function(response)
+  else{$.ajax({url:"php/iwo.php",method:"POST",data:{token:token, action:'confirm'},success:function(response)
   {if(response !== "1"){window.location.href = 'index.html';}}});}
 </script>
+  <div class="loader"></div>
   <header>
     <nav class="navbar  bg-dark">
       <div class="container">
@@ -52,6 +53,9 @@
   </header>
   <main>
     <div class="row" style="display: flex; width: max-content;">
+      <div class="log col-4" id="log">
+        <h5>LOGS DEL SISTEMA</h5>
+      </div>
       <div class="contenedorutilidades col-8">
         <div class="collapse collapse-horizontal" id="collapse1">
           <!--Módulo de configuración para guardar las credenciales-->
@@ -151,31 +155,52 @@
               </div>
               <div class="row">
                 <div class="col-3">
-                  <label for="">BOTONES</label>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="antecedente_especial" >ANT. ESPECIALES</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="bodegas" >BODEGAS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="categorias" >CATEGORIAS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="cobertura" >COBERTURA</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="copago" >COPAGO</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="departamentos" >DEPARTAMENTOS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="especialidad" >ESPECIALIDAD</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="estadio" >ESTADIO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="antecedente_especial" title="ANTECEDENTES_ESPECIALES" >ANTECEDENTES_ESPECIALES</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="bodega" title="BODEGA" >BODEGA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="categoria" title="CATEGORIA" >CATEGORIA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="cobertura" title="COBERTURA" >COBERTURA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="copago" title="COPAGO" >COPAGO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="departamento" title="DEPARTAMENTO" >DEPARTAMENTO</button>
+                  <!-- <button class="btn btn-primary btnMigration" type="button" data-id="especialidad" title="ESPECIALIDAD" >ESPECIALIDAD</button> -->
+                  <button class="btn btn-primary btnMigration" type="button" data-id="estadio" title="ESTADIO" >ESTADIO</button>
                 </div>
                 <div class="col-3">
-                  <label for="">BOTONES</label>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="insumo" >INSUMO</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="medicamentos" >MEDICAMENTO</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="motivo_cancelacion" >MOTIVO_CANCELACION</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="ocupacion" >OCUPACION</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="permisos" >PERMISOS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="resolucion" >RESOLUCION</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="sede" >SEDE</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="servicio" >SERVICIO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="inatencion" title="INATENCION" >INATENCION</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="insumo" title="INSUMO" >INSUMO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="medicamento" title="MEDICAMENTO" >MEDICAMENTO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="motivo_cancelacion" title="MOTIVO_CANCELACION" >MOTIVO_CANCELACION</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="ocupacion" title="OCUPACION" >OCUPACION</button>
+                  <!-- <button class="btn btn-primary btnMigration" type="button" data-id="permisos" title="PERMISOS" >PERMISOS</button> -->
+                  <button class="btn btn-primary btnMigration" type="button" data-id="resolucion" title="RESOLUCION" >RESOLUCION</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="sede" title="SEDE" >SEDE</button>
+                  <!-- <button class="btn btn-primary btnMigration" type="button" data-id="servicio" title="SERVICIO" >SERVICIO</button> -->
+                  
                 </div>
                 <div class="col-3">
-                  <label for="">BOTONES</label>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="servicio_remision" >SERVICIO_REMISION</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="users" >USERS</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="servicio_remision" title="SERVICIO_REMISION" >SERVICIO_REMISION</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="users" title="USERS" >USERS</button>
+                  <!-- <h5>MIGRACION 2do NIVEL</h5> -->
+                  <hr>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="diagnostico" title="DIAGNOSTICO" >DIAGNOSTICO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="municipio" title="MUNICIPIO" >MUNICIPIO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="programa" title="PROGRAMA" >PROGRAMA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="usuario_rol" title="USUARIO_ROL" >USUARIO_ROL</button>
+                  <!-- <button class="btn btn-primary btnMigration" type="button" data-id="usuario_permiso" title="USUARIO_PERMISO" >USUARIO_PERMISO</button> -->
+                  <!-- <h5>MIGRACION 3er NIVEL</h5> -->
+                  <hr>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="cups" title="CUPS" >CUPS</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn btn-primary btnMigration" type="button" data-id="entidad" title="ENTIDAD" >ENTIDAD</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="paciente" title="PACIENTE" >PACIENTE</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="plan" title="PLAN" >PLAN</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="prestador" title="PRESTADOR" >PRESTADOR</button>
+                  <!-- <h5>MIGRACION 4to NIVEL</h5> -->
+                  <hr>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="entidad_prestador" title="ENTIDAD_PRESTADOR" >ENTIDAD_PRESTADOR</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia" title="HISTORIA" >HISTORIA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="laboratorio" title="LABORATORIO" >LABORATORIO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="plan_cups" title="PLAN_CUPS" >PLAN_CUPS</button>
                 </div>
               </div>
             </div>
@@ -190,50 +215,56 @@
               </div>
               <div class="row">
                 <div class="col-3">
-                  <button class="btn btn-primary btnMigration" type="button" data-id="diagnostico" >DIAGNOSTICO</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="municipios" >MUNICIPIOS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="programa" >PROGRAMA</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="programa" >USUARIO_PERMISO</button>
-                  <h5>MIGRACION 3er NIVEL</h5>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="cups" >CUPS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="entidad" >ENTIDAD</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="paciente" >PACIENTE</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="prestador_sede" title="PRESTADOR_SEDE" >PRESTADOR_SEDE</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="usuario" title="USUARIO" >USUARIO</button>
+                  <!-- <h5>MIGRACION 5to NIVEL</h5> -->
+                  <hr>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="admision" title="ADMISIÓN" >ADMISIÓN</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="covid" title="COVID" >COVID</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_diagnostico" title="historia_diagnostico" >HISTORIA_DIAGNOSTICO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_examen_fisico" title="HISTORIA_EXAMEN_FISICO" >HISTORIA_EXAMEN_FISICO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="factor_de_riesgo" title="FACTOR_DE_RIESGO" >FACTOR_DE_RIESGO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="factura" title="FACTURA" >FACTURA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_antecedente" title="HISTORIA_ANTECEDENTE" >HISTORIA_ANTECEDENTE</button>
                 </div>
                 <div class="col-3">
-                  <button class="btn btn-primary btnMigration" type="button" data-id="plan" >PLAN</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="prestador" >PRESTADOR</button>
-                  <h5>MIGRACION 4to NIVEL</h5>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="entidad_prestador" >ENTIDAD_PRESTADOR</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="historia" >HISTORIA</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="laboratorio" >LABORATORIO</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="plan_cups" >PLAN_CUPS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="prestador_sede" >PRESTADOR_SEDE</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_antecedente_especial" title="HISTORIA_ANTECEDENTE_ESPECIAL" >HISTORIA_ANTECEDENTE_ESPECIAL</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_cups" title="HISTORIA_CUPS" >HISTORIA_CUPS</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_dialisis" title="HISTORIA_DIALISIS" >HISTORIA_DIALISIS</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_enfermeria" title="HISTORIA_ENFERMERIA" >HISTORIA_ENFERMERIA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_insumo" title="HISTORIA_INSUMO" >HISTORIA_INSUMO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_laboratorio" title="HISTORIA_LABORATORIO" >HISTORIA_LABORATORIO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_medicamento" title="HISTORIA_MEDICAMENTO" >HISTORIA_MEDICAMENTO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_nutricion" title="HISTORIA_NUTRICION" >HISTORIA_NUTRICION</button>
                 </div>
                 <div class="col-3">
-                  <button class="btn btn-primary btnMigration" type="button" data-id="usuarios" >USUARIOS</button>
-                  <h5>MIGRACION 5to NIVEL</h5>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="diagnostico_historia" >DIAGNOSTICO_HISTORIA</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="admision" >ADMISIÓN</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="factura" >FACTURA</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="kru_dialisis" >KRU_DIALISIS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="ktv_dialisis" >KTV_DIALISIS</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="remision" >REMISION</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_procedimiento" title="HISTORIA_PROCEDIMIENTO" >HISTORIA_PROCEDIMIENTO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_usuario" title="HISTORIA_USUARIO" >HISTORIA_USUARIO</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="kru_dialisis" title="KRU_DIALISIS" >KRU_DIALISIS</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="ktv_dialisis" title="KTV_DIALISIS" >KTV_DIALISIS</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="remision" title="REMISION" >REMISION</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="revision_por_sistema" title="REVISION_POR_SISTEMA" >REVISION_POR_SISTEMA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="signo_vital_dialisis" title="SIGNO_VITAL_DIALISIS" >SIGNO_VITAL_DIALISIS</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="test_escala" title="TEST_ESCALA" >TEST_ESCALA</button>
                 </div>
                 <div class="col-3">
-                  <button class="btn btn-primary btnMigration" type="button" data-id="usuario_especialidad" >USUARIO_ESPECIALIDAD</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="usuario_prestador" >USUARIO_PRESTADOR</button>
-                  <h5>MIGRACION 6to NIVEL</h5>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="agenda" >AGENDA</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="admision_cancelacion" >ADMISION_CANCELACION</button>
-                  <button class="btn btn-primary btnMigration" type="button" data-id="factura_admision" >FACTURA_ADMISION</button>
+                  
+                  <button class="btn btn-primary btnMigration" type="button" data-id="usuario_especialidad" title="USUARIO_ESPECIALIDAD" >USUARIO_ESPECIALIDAD</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="usuario_prestador" title="USUARIO_PRESTADOR" >USUARIO_PRESTADOR</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_psicologia" title="HISTORIA_PSICOLOGIA" >HISTORIA_PSICOLOGIA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_nucleo_familiar" title="HISTORIA_NUCLEO_FAMILIAR" >HISTORIA_NUCLEO_FAMILIAR</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="historia_trabajo_social" title="HISTORIA_TRABAJO_SOCIAL" >HISTORIA_TRABAJO_SOCIAL</button>
+                  <hr>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="agenda" title="AGENDA" >AGENDA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="admision_cancelacion" title="ADMISION_CANCELACION" >ADMISION_CANCELACION</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="admision_factura" title="ADMISION_FACTURA" >ADMISION_FACTURA</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="admision_inatencion" title="ADMISION_INATENCION" >ADMISION_INATENCION</button>
+                  <button class="btn btn-primary btnMigration" type="button" data-id="indices" title="INDICES" >INDICES</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="log col-4" id="log">
-        <h5>LOGS DEL SISTEMA</h5>
       </div>
     </div>
   </main>
