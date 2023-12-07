@@ -1,0 +1,101 @@
+body{
+    margin: 0;
+}
+
+.contenedor {
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto; /* Centrar el contenedor horizontalmente */
+    background-color: #f1f1f1;
+}
+
+.contenido-fijo {
+    width: 100%; /* Ancho fijo en píxeles */
+    height: 100%; /* Alto fijo en píxeles */
+    margin: 0; /* Márgenes en píxeles */
+    background-color: #ccc;
+    color: #fff;
+}
+
+.divHeader{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,115,250,1) 100%);
+}
+
+.divHeader img{
+    width: 30vw;
+    height: auto;
+    margin: 10px;
+}
+
+
+.body1{
+    width: 100%;;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formulario{
+    width: 70%;
+    border-radius: 20px;
+    height: auto;
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(74,74,74);
+    background: linear-gradient(0deg, rgba(74,74,74,1) 0%, rgba(255,255,255,1) 100%);
+    margin: 50px auto;
+}
+
+.formulario h3{
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.formulario label{
+    width: 30%;
+    text-align: start;
+    font-weight: 500;
+    margin-bottom: 10px;
+    margin-left: 8px;
+    color: black;
+}
+
+.formulario input{
+    width: 57%;
+    margin-bottom: 10px;
+}
+
+.formulariobutton{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.formulariobutton input{
+    width: 100px;
+}
+
+.consola{
+    width: 80%;
+    height: 100px;
+    background-color: rgb(0, 0, 79);
+    border: 2px solid rgb(0, 0, 0);
+    margin-left: 40px;
+    margin-bottom: 5px;
+    overflow: auto;
+}
+
+.consola h4{
+    color: aliceblue;
+    font-size: small;
+    text-align: center;
+    margin: 2px;
+}
